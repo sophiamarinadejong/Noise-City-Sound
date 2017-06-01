@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://www.browserbased.org/links/GDA/js/api.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<title>Noise Dutch Music</title>
+
+	<link rel="stylesheet" type="text/css" href="style/site.css" />
+
+</head>
+  
+<body>
+<!-- <div class="container"> -->
+	<div class="air">
+	  		<iframe src='http://berkeleyearth.lbl.gov/air-quality/embed.php?z=10&x=4.31064&y=52.10472&m=h&c=y&f=n&r=h&e=s' width='300' height='300' frameborder='0' style='border:0' position="absolute"></iframe>
+<!-- 		<iframe src='http://berkeleyearth.lbl.gov/air-quality/embed.php?z=10&x=364.22824&y=52.05155&m=h&c=y&f=n&r=h&e=l' width="400" height= "200"  margin-top="300px" margin-right="500px"></iframe> -->
+  		</div>
+  		
+		<img src="images/denhaag.gif" class="gif">
+<!-- 		<img src="images/nss.jpg" class="nss"> -->
+
+<!-- 	  <iframe src="https://www.google.com/maps/embed/v1/place?key=****&q=*1.967842,*5.897120&zoom=18&maptype=satellite"></iframe>                    -->
+
+<!--   		<source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm"> -->
+  	
+  		
+		<h1>Lat 52.072648, Lon 4.300044 <a href="https://www.w3schools.com"></a></h1>
+
+		<div class="volume" title="Set volume">	<span class="volumeBar"></span></div>
+	  		
+			
+	<div id="output"></div>
+	<audio id="mp3player" src=""></audio>
+
+	<script src="./index_files/jquery.min.js"></script>
+	<script type="text/javascript">
+		
+		var mp3player = document.getElementById( 'mp3player' );
+
+		navigator.geolocation.getCurrentPosition( useData );
+
+		function useData( data )
+		{
+			console.log( data );
+			var lat = data.coords.latitude;
+			var lng = data.coords.longitude;
+
+			$.ajax({
+			url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lng + '&APPID=fe287283a79a5e15cbf3e57c6de09ed3',
+			dataType: 'json',
+			success: doSomething
+		});
+		}
+
+		function doSomething( data )
+		{
+ 			console.log( data.name );
+
+ 			document.getElementById( 'output' ).innerHTML = data.name ;
+ 			if ( data.name == "Gemeente ’s-Gravenhage" )
+ 			{
+ 				// do something
+ 				mp3player.src= "music/Den-Haag.wav";
+ 				mp3player.play();
+ 				
+ 			}
+ 			
+ 				else if ( data.name == "Den Haag" )
+ 			{
+				mp3player.src= "music/Den-Haag.wav";
+ 				mp3player.play();
+ 			}
+ 			
+ 			else if ( data.name == "Amsterdam" )
+ 			{
+				mp3player.src= "music/Den-Haag.wav";
+ 				mp3player.play();
+ 			}
+
+		}
+		
+		var audio = document.getElementsByTagName('audio')[0];
+
+
+$('.muted').click(function () {
+    audio.muted = !audio.muted;
+    return false;
+});
+
+//VOLUME BAR
+//volume bar event
+var volumeDrag = false;
+$('.volume').on('mousedown', function (e) {
+    volumeDrag = true;
+    audio.muted = false;
+    $('.sound').removeClass('muted');
+    updateVolume(e.pageX);
+});
+$(document).on('mouseup', function (e) {
+    if (volumeDrag) {
+        volumeDrag = false;
+        updateVolume(e.pageX);
+    }
+});
+$(document).on('mousemove', function (e) {
+    if (volumeDrag) {
+        updateVolume(e.pageX);
+    }
+});
+var updateVolume = function (x, vol) {
+    var volume = $('.volume');
+    var percentage;
+    //if only volume have specificed
+    //then direct update volume
+    if (vol) {
+        percentage = vol * 100;
+    } else {
+        var position = x - volume.offset().left;
+        percentage = 100 * position / volume.width();
+    }
+
+    if (percentage > 100) {
+        percentage = 100;
+    }
+    if (percentage < 0) {
+        percentage = 0;
+    }
+
+    //update volume bar and video volume
+    $('.volumeBar').css('width', percentage + '%');
+    audio.volume = percentage / 100;
+
+    //change sound icon based on volume
+    if (audio.volume == 0) {
+        $('.sound').removeClass('sound2').addClass('muted');
+    } else if (audio.volume > 0.5) {
+        $('.sound').removeClass('muted').addClass('sound2');
+    } else {
+        $('.sound').removeClass('muted').removeClass('sound2');
+    }
+
+};
+
+	</script>
+		<div id="bg">
+
+
+</body></html>
